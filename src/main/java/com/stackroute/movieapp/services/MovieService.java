@@ -1,31 +1,18 @@
 package com.stackroute.movieapp.services;
-
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import com.stackroute.movieapp.domain.Movie;
-import com.stackroute.movieapp.repositories.MovieRepository;
+import com.stackroute.movieapp.exception.MovieAlreadyExistsException;
+import com.stackroute.movieapp.exception.MovieNotFoundException;
 
-@Service
-public class MovieService {
-	
-	
-	private MovieRepository movieRepository;
+public interface MovieService {
 
-	@Autowired
-	public MovieService(MovieRepository movieRepository) {
-		super();
-		this.movieRepository = movieRepository;
-	}
-
-	public Movie saveMovie(Movie movie) {
-		return movieRepository.save(movie);
-		
-	}
+	public Movie saveMovie(Movie movie) throws MovieAlreadyExistsException;
+	public Iterable<Movie> getAllMovies();
+	public boolean deleteMovie (int id) throws MovieNotFoundException ;
+	public Movie updateMovie(Movie movie);
+	public Optional<Movie> getMovieById(int id) throws MovieNotFoundException;
+	public List<Movie> getMovieByTitle(String title)throws MovieNotFoundException;
 	
-	public Iterable<Movie> getAllMovies() {
-		return movieRepository.findAll();
-	}
 }
